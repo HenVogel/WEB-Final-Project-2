@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher - Encrypt/Decrypt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url("other_image_yeah.png");
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label, input, button {
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        #result {
+            padding: 10px;
+            margin: 100px auto;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for all content -->
+    <div class="container">
+        <h1 style="color: azure;">Caesar Cipher Encryption/Decryption</h1> <!-- Title of the page -->
+
+        <!-- Label and input for the user to enter their message -->
+        <label style="color: azure;" for="message">Enter your message:</label>
+        <input type="text" id="message" placeholder="Enter message here">
+        
+        <!-- Label and input for the user to specify the shift number (0-25) -->
+        <label style="color: azure;" xfor="shift">Shift Number (0-25):</label>
+        <input type="number" id="shift" min="0" max="25" value="3">
+
+        <!-- Label and dropdown menu for selecting the direction of the shift -->
+        <label style="color: azure;" for="direction">Shift Direction:</label>
+        <select id="direction">
+            <option value="right">Right (Encrypt)</option>
+            <option value="left">Left (Decrypt)</option>
+        </select>
+
+        <!-- Button to trigger encryption or decryption -->
+        <button onclick="cipher()">Encrypt/Decrypt</button>
+
+        <!-- The area where the result will be displayed -->
+        <div style="color: azure;" id="result"></div>
+    </div>
+
+    <!-- JavaScript to handle the Caesar Cipher logic -->
+    <script>
+        // This function handles the encryption or decryption
+        function cipher() {
+            // Get the user input from the page
+            const message = document.getElementById('message').value; // The message entered by the user
+            const shift = parseInt(document.getElementById('shift').value); // The shift amount (converted to an integer)
+            const direction = document.getElementById('direction').value; // The direction of the shift (either 'right' or 'left'
+
+            let result = ""; // Variable to store the final result (encrypted or decrypted text)
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // A string representing the English alphabet
+
+            // Convert the message to uppercase to handle both lowercase and uppercase inputs.
+            const uppercaseMessage = message.toUpperCase();
+
+            // Loop through each character of the message
+            for (let i = 0; i < uppercaseMessage.length; i++) {
+                const char = uppercaseMessage[i]; // Current character in the message
+
+                // Check if the character is a letter (A-Z)
+                if (alphabet.includes(char)) {
+                    let newCharIndex = alphabet.indexOf(char); // Find the current position of the character in the alphabet
+
+                    // Shift the letter based on the selected direction
+                    if (direction === "right") {
+                        newCharIndex = (newCharIndex + shift) % 26;
+                    } else {
+                        newCharIndex = (newCharIndex - shift + 26) % 26;
+                    }
+
+                    result += alphabet[newCharIndex];
+                } else {
+                    // If it's not a letter, add it to the result as is
+                    result += char;
+                }
+            }
+
+            // Display the result (encrypted or decrypted message) in the 'result' div// Output the result
+            document.getElementById('result').innerText = `Result: ${result}`;
+        }
+    </script>
+</body>
+</html>
